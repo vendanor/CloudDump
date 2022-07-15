@@ -1,0 +1,38 @@
+version: '3.3'
+
+volumes:
+  persistent-data:
+
+services:
+
+  vnclouddump-ubuntu:
+    build:
+      context: ./
+      dockerfile: vnclouddump-ubuntu/Dockerfile
+    volumes:
+    - persistent-data:/persistent-data
+    - ./config:/config
+    - /srv/azdump:/azdump
+    - /srv/pgdump:/pgdump
+
+
+  vnclouddump-fedora:
+    build:
+      context: ./
+      dockerfile: vnclouddump-fedora/Dockerfile
+    volumes:
+    - persistent-data:/persistent-data
+    - ./config:/config
+    - /srv/azdump:/azdump
+    - /srv/pgdump:/pgdump
+
+
+  vnclouddump-opensuse:
+    build:
+      context: ./
+      dockerfile: vnclouddump-opensuse/Dockerfile
+    volumes:
+    - persistent-data:/persistent-data
+    - ./config:/config
+    - /srv/azdump:/azdump
+    - /srv/pgdump:/pgdump
