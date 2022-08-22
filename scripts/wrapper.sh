@@ -2,7 +2,7 @@
 
 # Vendanor VnCloudDump Wrapper Script
 # This script runs the specified script, logs all output and sends the result on e-mail.
-# Usage: vnclouddump-wrapper <script> <jobid>
+# Usage: wrapper.sh <script> <jobid>
 
 
 RANDOM=$$

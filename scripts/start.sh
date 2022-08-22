@@ -211,7 +211,7 @@ for ((i = 0; i < jobs; i++)); do
     exit 1
   fi
 
-  echo "${crontab} /usr/local/bin/vnclouddump-wrapper.sh ${script} ${jobid} >/dev/null" >>"${CRONFILE}" || exit 1
+  echo "${crontab} /usr/local/bin/wrapper.sh ${script} ${jobid} >/dev/null" >>"${CRONFILE}" || exit 1
 
 done
 

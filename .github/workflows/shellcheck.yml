@@ -13,7 +13,7 @@ jobs:
         run: sudo apt install -y shellcheck
       - name: shellcheck
         run: |
-          shellcheck -s bash --exclude=SC2181 --exclude=SC2230 scripts/vnclouddump-start.sh
-          shellcheck -s bash --exclude=SC2181 --exclude=SC2230 --exclude=SC2086 --exclude=SC2001 scripts/vnclouddump-wrapper.sh
+          shellcheck -s bash --exclude=SC2181 --exclude=SC2230 scripts/start.sh
+          shellcheck -s bash --exclude=SC2181 --exclude=SC2230 --exclude=SC2086 --exclude=SC2001 scripts/wrapper.sh
           shellcheck -s bash --exclude=SC2181 --exclude=SC2230 scripts/azdump.sh
           shellcheck -s bash --exclude=SC2181 --exclude=SC2230 --exclude=SC2086 scripts/pgdump.sh

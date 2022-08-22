@@ -9,4 +9,4 @@ RUN chmod u+x /usr/local/bin/*.sh
 
 RUN /usr/local/bin/azcopy-install.sh
 
-CMD [ "/usr/local/bin/vnclouddump-start.sh" ]
+CMD [ "/usr/local/bin/start.sh" ]
