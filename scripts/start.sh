@@ -8,6 +8,11 @@ CONFIGFILE="/config/config.json"
 LOGFILE="/persistent-data/logs/vnclouddump.log"
 
 
+if [ "$(jq -r '.settings.DEBUG' ${CONFIGFILE})" = "true" ]; then
+  set -x
+fi
+
+
 # Functions
 
 timestamp() {

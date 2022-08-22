@@ -15,7 +15,8 @@ Example configuration:
         "SMTPUSER": "username",
         "SMTPPASS": "password",
         "MAILFROM": "user@domain.dom",
-        "MAILTO": "user@domain.dom"
+        "MAILTO": "user@domain.dom",
+        "DEBUG": false
       },
       "jobs": [
         {

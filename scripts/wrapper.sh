@@ -13,6 +13,11 @@ CONFIGFILE="/config/config.json"
 #CONFIGFILE="${HOME}/Projects/Vendanor/VnCloudDump/config/config.json"
 
 
+if [ "$(jq -r '.settings.DEBUG' ${CONFIGFILE})" = "true" ]; then
+  set -x
+fi
+
+
 # Functions
 
 timestamp() {
