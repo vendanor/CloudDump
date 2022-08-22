@@ -101,6 +101,7 @@ SMTPUSER=$(jq -r '.settings.SMTPUSER' "${CONFIGFILE}" | sed 's/^null$//g')
 SMTPPASS=$(jq -r '.settings.SMTPPASS' "${CONFIGFILE}" | sed 's/^null$//g')
 MAILFROM=$(jq -r '.settings.MAILFROM' "${CONFIGFILE}" | sed 's/^null$//g')
 MAILTO=$(jq -r '.settings.MAILTO' "${CONFIGFILE}" | sed 's/^null$//g')
+DEBUG=$(jq -r '.settings.DEBUG' "${CONFIGFILE}")
 
 log "Configuration:"
 log "SMTP Server: $SMTPSERVER"
@@ -195,6 +196,8 @@ for ((i = 0; i < jobs; i++)); do
     continue
   fi
 
+  jobdebug=$(jq -r ".jobs[${i}].debug" "${CONFIGFILE}")
+
   echo "${script}" | grep '^\/' >/dev/null 2>&1
   if [ $? -eq 0 ]; then
     scriptfile="${script}"
@@ -216,7 +219,11 @@ for ((i = 0; i < jobs; i++)); do
     exit 1
   fi
 
-  echo "${crontab} /usr/local/bin/wrapper.sh ${script} ${jobid} >/dev/null" >>"${CRONFILE}" || exit 1
+  if [ "${DEBUG}" = "true" ]; then
+    opt="-x"
+  fi
+
+  echo "${crontab} /bin/bash ${opt} /usr/local/bin/wrapper.sh ${script} ${jobid} ${jobdebug}" >>"${CRONFILE}" || exit 1
 
 done
 

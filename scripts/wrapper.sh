@@ -2,7 +2,7 @@
 
 # Vendanor VnCloudDump Wrapper Script
 # This script runs the specified script, logs all output and sends the result on e-mail.
-# Usage: wrapper.sh <script> <jobid>
+# Usage: wrapper.sh <script> <jobid> <debug>
 
 
 RANDOM=$$
@@ -11,11 +11,6 @@ MAIL="mutt"
 
 CONFIGFILE="/config/config.json"
 #CONFIGFILE="${HOME}/Projects/Vendanor/VnCloudDump/config/config.json"
-
-
-if [ "$(jq -r '.settings.DEBUG' ${CONFIGFILE})" = "true" ]; then
-  set -x
-fi
 
 
 # Functions
@@ -111,6 +106,7 @@ fi
 
 SCRIPT="${1}"
 JOBID="${2}"
+DEBUG="${3}"
 
 if [ "${SCRIPT}" = "" ] || [ "${JOBID}" = "" ]; then
   error "Syntax: $0 <Script> <JobID>"
@@ -174,7 +170,11 @@ log "${0} running."
 
 # Run script
 
-"${SCRIPTFILEPATH}" "${JOBID}" >>${LOGFILE} 2>&1
+if [ "${DEBUG}" = "true" ]; then
+  opt="-x"
+fi
+
+/bin/bash "${opt}" "${SCRIPTFILEPATH}" "${JOBID}" >>${LOGFILE} 2>&1
 result=$?
 
 

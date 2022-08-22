@@ -11,11 +11,6 @@ CONFIGFILE="/config/config.json"
 JOBID="${1}"
 
 
-if [ "$(jq -r '.settings.DEBUG' ${CONFIGFILE})" = "true" ]; then
-  set -x
-fi
-
-
 # Functions
 
 timestamp() {

@@ -23,6 +23,7 @@ Example configuration:
           "script": "azdump.sh",
           "id": "azdump1",
           "crontab": "*/5 * * * *",
+          "debug": false,
           "blobstorages": [
             {
               "source": "https://example.blob.core.windows.net/test?etc",
@@ -34,6 +35,7 @@ Example configuration:
           "script": "pgdump.sh",
           "id": "pgdump1",
           "crontab": "* * * * *",
+          "debug": false,
           "servers": [
             {
               "host": "example.azure.com",
