@@ -171,11 +171,12 @@ log "${0} running."
 # Run script
 
 if [ "${DEBUG}" = "true" ]; then
-  opt="-x"
+  /bin/bash -x "${SCRIPTFILEPATH}" "${JOBID}" >>${LOGFILE} 2>&1
+  result=$?
+else
+  /bin/bash "${SCRIPTFILEPATH}" "${JOBID}" >>${LOGFILE} 2>&1
+  result=$?
 fi
-
-/bin/bash "${opt}" "${SCRIPTFILEPATH}" "${JOBID}" >>${LOGFILE} 2>&1
-result=$?
 
 
 # Remove lockfile
