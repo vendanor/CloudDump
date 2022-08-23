@@ -6,7 +6,7 @@ jobs:
     name: Shell Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1.2.0
+      - uses: actions/checkout@v3
       - name: Install shellcheck
         env:
           DEBIAN_FRONTEND: noninteractive
