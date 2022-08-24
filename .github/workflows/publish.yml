@@ -2,6 +2,8 @@ name: publish
 
 on:
   push:
+    paths:
+      - 'VERSION'
     branches:
       - master
       - publish
