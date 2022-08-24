@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Vendanor VnCloudDump Startup Script
+# Vendanor CloudDump Startup Script
 # This script reads Json configuration and starts the cron daemon
 
 
@@ -41,7 +41,7 @@ error() {
 
 mkdir -p /persistent-data/logs
 
-log "Vendanor VnCloudDump Start ($0)"
+log "Vendanor CloudDump Start ($0)"
 
 
 # Check commands
@@ -208,7 +208,7 @@ fi
 
 # Test mail
 
-echo "VnCloudDump $0" | mail -r "${MAILFROM}" -s "VnCloudDump $0" "${MAILTO}" || exit 1
+echo "Vendanor CloudDump $0" | mail -r "${MAILFROM}" -s "Vendanor CloudDump $0" "${MAILTO}" || exit 1
 
 #tail -f /var/log/postfix.log
 

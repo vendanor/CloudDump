@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Vendanor VnCloudDump Wrapper Script
+# Vendanor CloudDump Wrapper Script
 # This script runs the specified script, logs all output and sends the result on e-mail.
 # Usage: wrapper.sh <script> <jobid> <debug>
 
@@ -41,7 +41,7 @@ error() {
 
 mkdir -p /persistent-data/logs
 
-log "Vendanor VnCloudDump Wrapper ($0)"
+log "Vendanor CloudDump Wrapper ($0)"
 
 
 # Check commands
@@ -210,7 +210,7 @@ fi
 attachments="${attachments} --"
 
 message="
-VnCloudDump report
+Vendanor CloudDump report
 
 Script: ${SCRIPTFILENAME}
 Job ID: ${JOBID}
@@ -221,9 +221,9 @@ See attached logs.
 "
 
 if [ "${MAIL}" = "mutt" ]; then
-  echo "${message}" | EMAIL="${MAILFROM}" ${MAIL} -s "VnCloudDump (${SCRIPTFILENAME}) ${result_text} report" ${attachments} "${MAILTO}"
+  echo "${message}" | EMAIL="${MAILFROM}" ${MAIL} -s "Vendanor CloudDump (${SCRIPTFILENAME}) ${result_text} report" ${attachments} "${MAILTO}"
 else
-  echo "${message}" | ${MAIL} -r "${MAILFROM}" -s "VnCloudDump (${SCRIPTFILENAME}) ${result_text} report" ${attachments} "${MAILTO}"
+  echo "${message}" | ${MAIL} -r "${MAILFROM}" -s "Vendanor CloudDump (${SCRIPTFILENAME}) ${result_text} report" ${attachments} "${MAILTO}"
 fi
 
 if [ $? -eq 0 ]; then
