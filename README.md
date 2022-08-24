@@ -16,7 +16,16 @@ Example configuration:
         "SMTPPASS": "password",
         "MAILFROM": "user@domain.dom",
         "MAILTO": "user@domain.dom",
-        "DEBUG": false
+        "DEBUG": false,
+        "mount": [
+          {
+            "path": "host:/mnt/backup",
+            "mountpoint": "/mnt/backup",
+            "username": "user",
+            "password": "pass",
+            "privkey": ""
+          }
+        ]
       },
       "jobs": [
         {

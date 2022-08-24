@@ -5,7 +5,7 @@ RUN echo "postfix postfix/main_mailer_type string 'Local only'" | debconf-set-se
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt -y update
 RUN apt -y upgrade
-RUN apt -y install bc curl tar bzip2 jq dnsutils mailutils mutt cron procmail postfix postfix-lmdb libsasl2-modules postgresql-client
+RUN apt -y install openssh-client sshfs cifs-utils bc curl tar bzip2 jq dnsutils mailutils mutt cron procmail postfix postfix-lmdb libsasl2-modules postgresql-client
 
 RUN cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 

@@ -46,7 +46,7 @@ log "Vendanor VnCloudDump Start ($0)"
 
 # Check commands
 
-cmds="which grep sed cut cp chmod mkdir bc jq crontab mail mutt postconf postmap"
+cmds="which grep sed cut cp chmod mkdir bc jq crontab mail mutt postconf postmap ssh sshfs mount.cifs"
 cmds_missing=
 for cmd in ${cmds}
 do
@@ -146,6 +146,64 @@ postmap /etc/postfix/relay || exit 1
 postmap lmdb:/etc/postfix/sasl_passwd || exit 1
 
 /usr/sbin/postfix start || exit 1
+
+
+# Mount
+
+mounts=$(jq -r ".settings.mount | length" "${CONFIGFILE}")
+if [ "${mounts}" -gt 0 ]; then
+  for ((i = 0; i < mounts; i++)); do
+    path=$(jq -r ".settings.mount[${i}].path" "${CONFIGFILE}" | sed 's/^null$//g' | sed 's/\\/\//g')
+    if [ $? -ne 0 ] || [ "${path}" = "" ]; then
+      continue
+    fi
+    mountpoint=$(jq -r ".settings.mount[${i}].mountpoint" "${CONFIGFILE}" | sed 's/^null$//g')
+    if [ $? -ne 0 ] || [ "${mountpoint}" = "" ]; then
+      continue
+    fi
+    username=$(jq -r ".settings.mount[${i}].username" "${CONFIGFILE}" | sed 's/^null$//g')
+    privkey=$(jq -r ".settings.mount[${i}].privkey" "${CONFIGFILE}" | sed 's/^null$//g')
+    password=$(jq -r ".settings.mount[${i}].password" "${CONFIGFILE}" | sed 's/^null$//g')
+    port=$(jq -r ".settings.mount[${i}].port" "${CONFIGFILE}" | sed 's/^null$//g')
+    echo "${path}" | grep ':' >/dev/null 2>&1
+    if [ $? -eq 0 ]; then # SSH
+      if [ ! "${privkey}" = "" ]; then
+        mkdir -p "${HOME}/.ssh" || exit 1
+        echo "${privkey}" >"${HOME}/.ssh/id_rsa" || exit 1
+        chmod 600 "${HOME}/.ssh/id_rsa" || exit 1
+      fi
+      echo "${path}" | grep '@' >/dev/null 2>&1
+      if [ $? -ne 0 ] && ! [ "${username}" = "" ]; then
+        path="${username}@${path}"
+      fi
+      log "Mounting ${path} to ${mountpoint} using sshfs."
+      mkdir -p "${mountpoint}" || exit 1
+      if [ "${port}" = "" ]; then
+        sshfs -v -o StrictHostKeyChecking=no "${path}" "${mountpoint}" || exit 1
+      else
+        sshfs -v -o StrictHostKeyChecking=no -p "${port}" "${path}" "${mountpoint}" || exit 1
+      fi
+      continue
+    fi
+    echo "${path}" | grep '^\/\/' >/dev/null 2>&1
+    if [ $? -eq 0 ]; then # SMB
+      if [ ! "${username}" = "" ]; then
+        if [ "${password}" = "" ] ; then
+          mount_cifs_opt="-o username=${username}"
+        else
+          mount_cifs_opt="-o username=${username},password=${password}"
+        fi
+      fi
+      log "Mounting ${path} to ${mountpoint} using mount.cifs."
+      mkdir -p "${mountpoint}" || exit 1
+      mount.cifs "${path}" ${mount_cifs_opt} "${mountpoint}" || exit 1
+      continue
+    fi
+    error "Invalid path ${path} for mountpoint ${mountpoint}."
+    error "Syntax is \"user@host:/path\" for SSH, or \"//host/path\" for SMB."
+    exit 1
+  done
+fi
 
 
 # Test mail
