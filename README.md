@@ -1,4 +1,4 @@
-VnCloudDump [![Build Status](https://github.com/vendanor/VnCloudDump/workflows/shellcheck/badge.svg)](https://github.com/vendanor/VnCloudDump/actions)
+Vendanor CloudDump [![Build Status](https://github.com/vendanor/CloudDump/workflows/shellcheck/badge.svg)](https://github.com/vendanor/CloudDump/actions)
 ====
 
 
