@@ -5,8 +5,7 @@ on:
     paths:
       - 'VERSION'
     branches:
-      - master
-      - publish
+      - main
 
 env:
   APP_NAME: 'clouddump'
