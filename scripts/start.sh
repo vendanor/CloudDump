@@ -107,8 +107,6 @@ log "Configuration:"
 log "SMTP Server: $SMTPSERVER"
 log "SMTP Port: $SMTPPORT"
 log "SMTP Username: $SMTPUSER"
-log "Mail From: $MAILFROM"
-log "Mail To: $MAILTO"
 
 
 # Setup postfix and mutt
