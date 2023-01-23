@@ -69,6 +69,7 @@ Example configuration:
                 "template0"
               ],
               "backuppath": "/pgdump",
+              "filenamedate": true,
               "compress": true
             }
           ]
