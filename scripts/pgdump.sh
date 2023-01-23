@@ -185,6 +185,9 @@ for ((server_idx = 0; server_idx < server_count; server_idx++)); do
     continue
   fi
 
+  filenamedate=$(jq -r ".jobs[${job_idx}].servers[${server_idx}].filenamedate" "${CONFIGFILE}" | sed 's/^null$//g')
+  compress=$(jq -r ".jobs[${job_idx}].servers[${server_idx}].compress" "${CONFIGFILE}" | sed 's/^null$//g')
+
   databases_included=$(json_array_to_strlist ".jobs[${job_idx}].servers[${server_idx}].databases_included")
   databases_excluded=$(json_array_to_strlist ".jobs[${job_idx}].servers[${server_idx}].databases_excluded")
 
@@ -351,62 +354,86 @@ for ((server_idx = 0; server_idx < server_count; server_idx++)); do
 
     done
 
-    BACKUPFILE="${backuppath}/${database}-$(date '+%Y%m%d%H%M%S').tar"
+    BACKUPFILE_TEMP="${backuppath}/${database}-$(date '+%Y%m%d%H%M%S').tar"
+    if [ "${filenamedate}" = "true" ]; then
+      BACKUPFILE_FINAL="${BACKUPFILE_TEMP}"
+    else
+      BACKUPFILE_FINAL="${backuppath}/${database}.tar"
+    fi
 
-    print "Running pg_dump of ${database} for ${PGHOST} to backupfile ${BACKUPFILE}..."
+    print "Running pg_dump of ${database} for ${PGHOST} to backupfile ${BACKUPFILE_FINAL}..."
 
     print "Tables included for ${database}: ${tables_included}"
     print "Tables excluded for ${database}: ${tables_excluded}"
 
-    PGPASSWORD=${PGPASSWORD} pg_dump -h "${PGHOST}" -p "${PGPORT}" -U "${PGUSERNAME}" -d "${database}" -F tar ${tables_included_params} ${tables_excluded_params} > "${BACKUPFILE}"
+    PGPASSWORD=${PGPASSWORD} pg_dump -h "${PGHOST}" -p "${PGPORT}" -U "${PGUSERNAME}" -d "${database}" -F tar ${tables_included_params} ${tables_excluded_params} > "${BACKUPFILE_TEMP}"
     if [ $? -ne 0 ]; then
-      error "pg_dump for ${database} on ${PGHOST} to backupfile ${BACKUPFILE} failed."
-      rm -f "${BACKUPFILE}"
+      error "pg_dump for ${database} on ${PGHOST} to backupfile ${BACKUPFILE_FINAL} failed."
+      rm -f "${BACKUPFILE_TEMP}"
       result=1
       continue
     fi
 
-    if ! [ -f "${BACKUPFILE}" ]; then
-      error "Backupfile ${BACKUPFILE} missing for ${database} on ${PGHOST}."
-      rm -f "${BACKUPFILE}"
+    if ! [ -f "${BACKUPFILE_TEMP}" ]; then
+      error "Backupfile ${BACKUPFILE_TEMP} missing for ${database} on ${PGHOST}."
+      rm -f "${BACKUPFILE_TEMP}"
       result=1
       continue
     fi
 
-    size=$(wc -c "${BACKUPFILE}" | cut -d ' ' -f 1)
+    size=$(wc -c "${BACKUPFILE_TEMP}" | cut -d ' ' -f 1)
     if [ $? -ne 0 ]; then
-      error "Could not get filesize for backupfile ${BACKUPFILE} of ${database} on ${PGHOST}."
-      rm -f "${BACKUPFILE}"
+      error "Could not get filesize for backupfile ${BACKUPFILE_TEMP} of ${database} on ${PGHOST}."
+      rm -f "${BACKUPFILE_TEMP}"
       result=1
       continue
     fi
 
     if [ -z "${size}" ] || ! [ "${size}" -eq "${size}" ] 2>/dev/null; then
-      error "Invalid filesize for backupfile ${BACKUPFILE} of ${database} on ${PGHOST}"
-      rm -f "${BACKUPFILE}"
+      error "Invalid filesize for backupfile ${BACKUPFILE_TEMP} of ${database} on ${PGHOST}"
+      rm -f "${BACKUPFILE_TEMP}"
       result=1
       continue
     fi
 
     if [ "${size}" -lt 10 ]; then
-      error "Backupfile ${BACKUPFILE} of ${database} on ${PGHOST} too small (${size} bytes)."
-      rm -f "${BACKUPFILE}"
+      error "Backupfile ${BACKUPFILE_TEMP} of ${database} on ${PGHOST} too small (${size} bytes)."
+      rm -f "${BACKUPFILE_TEMP}"
       result=1
       continue
     fi
 
-    print "Backup of ${database} on ${PGHOST} to file Backupfile ${BACKUPFILE} is successful."
-
-    print "BZipping ${BACKUPFILE}..."
-
-    bzip2 "${BACKUPFILE}"
-    if [ $? -eq 0 ]; then
-      BACKUPFILE="${BACKUPFILE}.bz2"
-    else
-      result=1
+    if ! [ "${BACKUPFILE_TEMP}" = "${BACKUPFILE_FINAL}" ]; then
+      mv -v "${BACKUPFILE_TEMP}" "${BACKUPFILE_FINAL}"
+      if [ $? -ne 0 ]; then
+        error "Failed to rename backupfile ${BACKUPFILE_TEMP} to ${BACKUPFILE_FINAL}."
+        rm -f "${BACKUPFILE_TEMP}"
+        result=1
+        continue
+      fi
     fi
 
-    print "Backup of ${database} on ${PGHOST} to file Backupfile ${BACKUPFILE} complete"
+    print "Backup of ${database} on ${PGHOST} to backupfile ${BACKUPFILE_FINAL} is successful."
+
+    if [ "${compress}" = "true" ]; then
+      print "BZipping ${BACKUPFILE_FINAL}..."
+      if [ -f "${BACKUPFILE_FINAL}.bz2" ]; then
+        rm -v "${BACKUPFILE_FINAL}.bz2"
+        if [ $? -ne 0 ]; then
+          error "Failed to delete old backupfile ${BACKUPFILE_FINAL}.bz2."
+          result=1
+          continue
+        fi
+      fi
+      bzip2 "${BACKUPFILE_FINAL}"
+      if [ $? -eq 0 ]; then
+        BACKUPFILE_FINAL="${BACKUPFILE_FINAL}.bz2"
+      else
+        result=1
+      fi
+    fi
+
+    print "Backup of ${database} on ${PGHOST} to backupfile ${BACKUPFILE_FINAL} complete"
 
   done
 

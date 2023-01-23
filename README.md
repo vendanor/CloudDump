@@ -68,7 +68,9 @@ Example configuration:
                 "azure_maintenance",
                 "template0"
               ],
-              "backuppath": "/pgdump"
+              "backuppath": "/pgdump",
+              "filenamedate": true,
+              "compress": true
             }
           ]
         }
