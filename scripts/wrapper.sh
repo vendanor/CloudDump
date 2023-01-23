@@ -192,9 +192,9 @@ if ! [ "${have_mail}" = "1" ]; then
 fi
 
 if [ ${result} = 0 ]; then
-  result_text="success"
+  result_text="SUCCESS"
 else
-  result_text="failure"
+  result_text="FAILURE"
 fi
 
 log "Sending e-mail to ${MAILTO} from ${MAILFROM}."
