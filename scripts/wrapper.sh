@@ -170,6 +170,8 @@ log "${0} running."
 
 # Run script
 
+time_start=$(date +%s)
+
 if [ "${DEBUG}" = "true" ]; then
   /bin/bash -x "${SCRIPTFILEPATH}" "${JOBID}" >>${LOGFILE} 2>&1
   result=$?
@@ -177,6 +179,8 @@ else
   /bin/bash "${SCRIPTFILEPATH}" "${JOBID}" >>${LOGFILE} 2>&1
   result=$?
 fi
+
+time_end=$(date +%s)
 
 
 # Remove lockfile
@@ -192,9 +196,9 @@ if ! [ "${have_mail}" = "1" ]; then
 fi
 
 if [ ${result} = 0 ]; then
-  result_text="success"
+  result_text="SUCCESS"
 else
-  result_text="failure"
+  result_text="FAILURE"
 fi
 
 log "Sending e-mail to ${MAILTO} from ${MAILFROM}."
@@ -216,14 +220,15 @@ Script: ${SCRIPTFILENAME}
 Job ID: ${JOBID}
 Result: ${result_text}
 Date: $(timestamp)
+Time elapsed: $((time_end - time_start))
 
 See attached logs.
 "
 
 if [ "${MAIL}" = "mutt" ]; then
-  echo "${message}" | EMAIL="${MAILFROM}" ${MAIL} -s "Vendanor CloudDump (${SCRIPTFILENAME}) ${result_text} report" ${attachments} "${MAILTO}"
+  echo "${message}" | EMAIL="Vendanor CloudDump <${MAILFROM}>" ${MAIL} -s "${JOBID}: Vendanor CloudDump ${result_text} report" ${attachments} "${MAILTO}"
 else
-  echo "${message}" | ${MAIL} -r "${MAILFROM}" -s "Vendanor CloudDump (${SCRIPTFILENAME}) ${result_text} report" ${attachments} "${MAILTO}"
+  echo "${message}" | ${MAIL} -r "Vendanor CloudDump <${MAILFROM}>" -s "${JOBID}: Vendanor CloudDump ${result_text} report" ${attachments} "${MAILTO}"
 fi
 
 if [ $? -eq 0 ]; then

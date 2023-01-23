@@ -363,8 +363,15 @@ for ((server_idx = 0; server_idx < server_count; server_idx++)); do
 
     print "Running pg_dump of ${database} for ${PGHOST} to backupfile ${BACKUPFILE_FINAL}..."
 
-    print "Tables included for ${database}: ${tables_included}"
-    print "Tables excluded for ${database}: ${tables_excluded}"
+    if [ "${tables_included}" = "" ]; then
+      print "All tables for ${database} included"
+    else
+      print "Tables included for ${database}: ${tables_included}"
+    fi
+
+    if ! [ "${tables_excluded}" = "" ]; then
+      print "Tables excluded for ${database}: ${tables_excluded}"
+    fi
 
     PGPASSWORD=${PGPASSWORD} pg_dump -h "${PGHOST}" -p "${PGPORT}" -U "${PGUSERNAME}" -d "${database}" -F tar ${tables_included_params} ${tables_excluded_params} > "${BACKUPFILE_TEMP}"
     if [ $? -ne 0 ]; then

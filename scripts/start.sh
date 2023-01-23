@@ -208,7 +208,7 @@ fi
 
 # Test mail
 
-echo "Vendanor CloudDump $0" | mail -r "${MAILFROM}" -s "Vendanor CloudDump $0" "${MAILTO}" || exit 1
+echo "Vendanor CloudDump Started" | mail -r "Vendanor CloudDump <${MAILFROM}>" -s "Vendanor CloudDump Started" "${MAILTO}" || exit 1
 
 #tail -f /var/log/postfix.log
 
