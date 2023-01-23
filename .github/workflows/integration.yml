@@ -31,7 +31,7 @@ jobs:
 
     strategy:
       matrix:
-       distro: [ fedora, opensuse, ubuntu ]
+       distro: [ fedora, opensuse, debian, ubuntu ]
 
     steps:
       - uses: actions/checkout@v3

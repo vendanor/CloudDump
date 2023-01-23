@@ -5,6 +5,16 @@ version: '3.3'
 
 services:
 
+  vnclouddump-debian:
+    build:
+      context: ./
+      dockerfile: vnclouddump-debian/Dockerfile
+    volumes:
+    #- persistent-data:/persistent-data
+    - ./config:/config
+    - /srv/azdump:/azdump
+    - /srv/pgdump:/pgdump
+
   vnclouddump-ubuntu:
     build:
       context: ./
