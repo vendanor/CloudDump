@@ -170,6 +170,8 @@ log "${0} running."
 
 # Run script
 
+time_start=$(date +%s)
+
 if [ "${DEBUG}" = "true" ]; then
   /bin/bash -x "${SCRIPTFILEPATH}" "${JOBID}" >>${LOGFILE} 2>&1
   result=$?
@@ -177,6 +179,8 @@ else
   /bin/bash "${SCRIPTFILEPATH}" "${JOBID}" >>${LOGFILE} 2>&1
   result=$?
 fi
+
+time_end=$(date +%s)
 
 
 # Remove lockfile
@@ -216,6 +220,7 @@ Script: ${SCRIPTFILENAME}
 Job ID: ${JOBID}
 Result: ${result_text}
 Date: $(timestamp)
+Time elapsed: $((time_end - time_start))
 
 See attached logs.
 "
