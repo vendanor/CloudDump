@@ -1,4 +1,4 @@
-name: publish
+name: Publish
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set version
+      - name: Get version from VERSION-file
         run: echo "version=$(cat VERSION | head -n 1)" >> $GITHUB_ENV
 
       - name: Setup Docker Buildx
@@ -40,5 +40,5 @@ jobs:
             --tag ghcr.io/vendanor/${{env.APP_NAME}}:latest \
             ${{github.workspace}}
 
-      - name: Publish Docker
+      - name: Publish Docker image
         run: docker push --all-tags ghcr.io/vendanor/${{env.APP_NAME}}
