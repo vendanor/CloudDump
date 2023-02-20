@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: docker
+    directory: "/vnclouddump-fedora"
+    schedule:
+      interval: daily
+      time: "08:00"
+      timezone: Europe/Oslo
+    open-pull-requests-limit: 10
+    
+  - package-ecosystem: docker
+    directory: "/vnclouddump-opensuse"
+    schedule:
+      interval: daily
+      time: "08:00"
+      timezone: Europe/Oslo
+    open-pull-requests-limit: 10
+    
+  - package-ecosystem: docker
+    directory: "/vnclouddump-ubuntu"
+    schedule:
+      interval: daily
+      time: "08:00"
+      timezone: Europe/Oslo
+    open-pull-requests-limit: 10
