@@ -41,6 +41,6 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          cp vnclouddump-${{matrix.distro}}/Dockerfile .
+          cp dockerfile-${{matrix.distro}}/Dockerfile .
           docker build ${{github.workspace}}
 

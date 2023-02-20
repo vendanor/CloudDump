@@ -5,4 +5,4 @@ if [ "${distro}" = "" ]; then
   distro="ubuntu"
 fi
 
-sudo docker-compose build vnclouddump-${distro}
+sudo docker-compose build clouddump-${distro}

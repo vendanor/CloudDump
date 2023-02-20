@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: docker
-    directory: "/vnclouddump-fedora"
+    directory: "/dockerfile-fedora"
     schedule:
       interval: daily
       time: "08:00"
@@ -9,7 +9,7 @@ updates:
     open-pull-requests-limit: 10
 
   - package-ecosystem: docker
-    directory: "/vnclouddump-opensuse"
+    directory: "/dockerfile-opensuse"
     schedule:
       interval: daily
       time: "08:00"
@@ -17,7 +17,7 @@ updates:
     open-pull-requests-limit: 10
 
   - package-ecosystem: docker
-    directory: "/vnclouddump-debian"
+    directory: "/dockerfile-debian"
     schedule:
       interval: daily
       time: "08:00"
@@ -25,7 +25,7 @@ updates:
     open-pull-requests-limit: 10
 
   - package-ecosystem: docker
-    directory: "/vnclouddump-ubuntu"
+    directory: "/dockerfile-ubuntu"
     schedule:
       interval: daily
       time: "08:00"
