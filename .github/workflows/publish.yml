@@ -34,7 +34,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          cp vnclouddump-opensuse/Dockerfile .
+          cp dockerfile-opensuse/Dockerfile .
           docker build \
             --tag ghcr.io/vendanor/${{env.APP_NAME}}:${{env.version}} \
             --tag ghcr.io/vendanor/${{env.APP_NAME}}:latest \

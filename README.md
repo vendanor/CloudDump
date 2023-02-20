@@ -82,12 +82,12 @@ Example configuration:
 
 ### Build
 
-    sudo docker-compose build --no-cache vnclouddump-ubuntu
+    sudo docker-compose build --no-cache clouddump-ubuntu
 
 
 ### Start
 
-    sudo docker-compose up -d vnclouddump-ubuntu
+    sudo docker-compose up -d clouddump-ubuntu
 
 
 ### Stop

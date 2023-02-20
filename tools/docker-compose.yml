@@ -5,31 +5,20 @@ version: '3.3'
 
 services:
 
-  vnclouddump-debian:
+  clouddump-debian:
     build:
-      context: ./
-      dockerfile: vnclouddump-debian/Dockerfile
+      context: ../
+      dockerfile: dockerfile-debian/Dockerfile
     volumes:
     #- persistent-data:/persistent-data
     - ./config:/config
     - /srv/azdump:/azdump
     - /srv/pgdump:/pgdump
 
-  vnclouddump-ubuntu:
+  clouddump-ubuntu:
     build:
-      context: ./
-      dockerfile: vnclouddump-ubuntu/Dockerfile
-    volumes:
-    #- persistent-data:/persistent-data
-    - ./config:/config
-    - /srv/azdump:/azdump
-    - /srv/pgdump:/pgdump
-
-
-  vnclouddump-fedora:
-    build:
-      context: ./
-      dockerfile: vnclouddump-fedora/Dockerfile
+      context: ../
+      dockerfile: dockerfile-ubuntu/Dockerfile
     volumes:
     #- persistent-data:/persistent-data
     - ./config:/config
@@ -37,10 +26,21 @@ services:
     - /srv/pgdump:/pgdump
 
 
-  vnclouddump-opensuse:
+  clouddump-fedora:
     build:
-      context: ./
-      dockerfile: vnclouddump-opensuse/Dockerfile
+      context: ../
+      dockerfile: dockerfile-fedora/Dockerfile
+    volumes:
+    #- persistent-data:/persistent-data
+    - ./config:/config
+    - /srv/azdump:/azdump
+    - /srv/pgdump:/pgdump
+
+
+  clouddump-opensuse:
+    build:
+      context: ../
+      dockerfile: dockerfile-opensuse/Dockerfile
     volumes:
     #- persistent-data:/persistent-data
     - ./config:/config
