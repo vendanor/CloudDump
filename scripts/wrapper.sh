@@ -171,6 +171,7 @@ log "${0} running."
 # Run script
 
 time_start=$(date +%s)
+time_start_timestamp=$(timestamp)
 
 if [ "${DEBUG}" = "true" ]; then
   /bin/bash -x "${SCRIPTFILEPATH}" "${JOBID}" >>${LOGFILE} 2>&1
@@ -219,8 +220,9 @@ Vendanor CloudDump report
 Script: ${SCRIPTFILENAME}
 Job ID: ${JOBID}
 Result: ${result_text}
-Date: $(timestamp)
-Time elapsed: $((time_end - time_start))
+Started: ${time_start_timestamp}
+Completed: $(timestamp)
+Time elapsed: $((time_end - time_start))s
 
 See attached logs.
 "
