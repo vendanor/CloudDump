@@ -144,7 +144,9 @@ for ((bs_idx = 0; bs_idx < bs_count; bs_idx++)); do
   fi
 
 
-  print "Source: ${source}"
+  source_stripped=$(echo "${source}" | cut -d '?' -f 1)
+
+  print "Source: ${source_stripped}"
   print "Destination: ${destination}"
 
 
@@ -186,11 +188,11 @@ for ((bs_idx = 0; bs_idx < bs_count; bs_idx++)); do
 
   # Run azcopy
 
-  print "Syncing source ${source} to destination ${destination}..."
+  print "Syncing source ${source_stripped} to destination ${destination}..."
 
   azcopy sync --recursive "${source}" "${destination}"
   if [ ${?} -ne 0 ]; then
-    error "Sync from source ${source} to destination ${destination} failed for job index ${job_idx} ID ${JOBID}."
+    error "Sync from source ${source_stripped} to destination ${destination} failed for job index ${job_idx} ID ${JOBID}."
     result=1
   fi
 
