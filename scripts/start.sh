@@ -165,6 +165,19 @@ if [ "${mounts}" -gt 0 ]; then
     privkey=$(jq -r ".settings.mount[${i}].privkey" "${CONFIGFILE}" | sed 's/^null$//g')
     password=$(jq -r ".settings.mount[${i}].password" "${CONFIGFILE}" | sed 's/^null$//g')
     port=$(jq -r ".settings.mount[${i}].port" "${CONFIGFILE}" | sed 's/^null$//g')
+
+    mount_summary="
+Path: ${path}
+Mountpoint ${mountpoint}
+"
+
+  if [ "${jobs_summary}" = "" ]; then
+    mounts_summary="${mount_summary}"
+  else
+    mounts_summary="${mounts_summary}
+${mount_summary}"
+  fi
+
     echo "${path}" | grep ':' >/dev/null 2>&1
     if [ $? -eq 0 ]; then # SSH
       if [ ! "${privkey}" = "" ]; then
@@ -205,10 +218,6 @@ if [ "${mounts}" -gt 0 ]; then
   done
 fi
 
-
-# Test mail
-
-echo "Vendanor CloudDump Started" | mail -r "Vendanor CloudDump <${MAILFROM}>" -s "[${BACKUPSERVER}] CloudDump Started" "${MAILTO}" || exit 1
 
 #tail -f /var/log/postfix.log
 
@@ -283,7 +292,48 @@ for ((i = 0; i < jobs; i++)); do
 
   echo "${crontab} /bin/bash ${opt} /usr/local/bin/wrapper.sh ${script} ${jobid} ${jobdebug} >/dev/null" >>"${CRONFILE}" || exit 1
 
+  job_summary="
+Job ID: ${jobid}
+Script: ${script}
+Crontab entry: ${crontab}
+Debug: ${jobdebug}
+"
+
+  if [ "${jobs_summary}" = "" ]; then
+    jobs_summary="${job_summary}"
+  else
+    jobs_summary="${jobs_summary}
+${job_summary}"
+  fi
+
 done
+
+
+# Send startup e-mail
+
+mail_body="CloudDump Started
+
+Configuration:
+
+Backup Server: ${BACKUPSERVER}
+SMTP Server: ${SMTPSERVER}
+SMTP Port: ${SMTPPORT}
+SMTP Username: ${SMTPUSER}
+"
+
+if [ ! "${mounts_summary}" = "" ]; then
+  mail_body="${mail_body}
+Mountpoints:
+${mounts_summary}
+"
+fi
+
+  mail_body="${mail_body}
+Jobs:
+${jobs_summary}
+"
+
+echo "${mail_body}" | mail -r "Vendanor CloudDump <${MAILFROM}>" -s "[${BACKUPSERVER}] CloudDump Started" "${MAILTO}" || exit 1
 
 
 # Setup crontab
