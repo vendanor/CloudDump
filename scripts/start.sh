@@ -95,6 +95,7 @@ if [ ! -r "${CONFIGFILE}" ]; then
   exit 1
 fi
 
+BACKUPSERVER=$(jq -r '.settings.BACKUPSERVER' "${CONFIGFILE}" | sed 's/^null$//g')
 SMTPSERVER=$(jq -r '.settings.SMTPSERVER' "${CONFIGFILE}" | sed 's/^null$//g')
 SMTPPORT=$(jq -r '.settings.SMTPPORT' "${CONFIGFILE}" | sed 's/^null$//g')
 SMTPUSER=$(jq -r '.settings.SMTPUSER' "${CONFIGFILE}" | sed 's/^null$//g')
@@ -104,6 +105,7 @@ MAILTO=$(jq -r '.settings.MAILTO' "${CONFIGFILE}" | sed 's/^null$//g')
 DEBUG=$(jq -r '.settings.DEBUG' "${CONFIGFILE}")
 
 log "Configuration:"
+log "Backup Server: $BACKUPSERVER"
 log "SMTP Server: $SMTPSERVER"
 log "SMTP Port: $SMTPPORT"
 log "SMTP Username: $SMTPUSER"
@@ -206,7 +208,7 @@ fi
 
 # Test mail
 
-echo "Vendanor CloudDump Started" | mail -r "Vendanor CloudDump <${MAILFROM}>" -s "Vendanor CloudDump Started" "${MAILTO}" || exit 1
+echo "Vendanor CloudDump Started" | mail -r "Vendanor CloudDump <${MAILFROM}>" -s "[${BACKUPSERVER}] CloudDump Started" "${MAILTO}" || exit 1
 
 #tail -f /var/log/postfix.log
 

@@ -145,6 +145,7 @@ if [ ! -f "${CONFIGFILE}" ]; then
   exit 1
 fi
 
+BACKUPSERVER=$(jq -r '.settings.BACKUPSERVER' "${CONFIGFILE}" | sed 's/^null$//g')
 MAILFROM=$(jq -r '.settings.MAILFROM' "${CONFIGFILE}" | sed 's/^null$//g')
 MAILTO=$(jq -r '.settings.MAILTO' "${CONFIGFILE}" | sed 's/^null$//g')
 
@@ -217,6 +218,7 @@ attachments="${attachments} --"
 message="
 Vendanor CloudDump report
 
+Backup server: ${BACKUPSERVER}
 Script: ${SCRIPTFILENAME}
 Job ID: ${JOBID}
 Result: ${result_text}
@@ -228,9 +230,9 @@ See attached logs.
 "
 
 if [ "${MAIL}" = "mutt" ]; then
-  echo "${message}" | EMAIL="Vendanor CloudDump <${MAILFROM}>" ${MAIL} -s "${JOBID}: Vendanor CloudDump ${result_text} report" ${attachments} "${MAILTO}"
+  echo "${message}" | EMAIL="Vendanor CloudDump <${MAILFROM}>" ${MAIL} -s "[${BACKUPSERVER}] CloudDump ${result_text}: ${JOBID}" ${attachments} "${MAILTO}"
 else
-  echo "${message}" | ${MAIL} -r "Vendanor CloudDump <${MAILFROM}>" -s "${JOBID}: Vendanor CloudDump ${result_text} report" ${attachments} "${MAILTO}"
+  echo "${message}" | ${MAIL} -r "Vendanor CloudDump <${MAILFROM}>" -s "[${BACKUPSERVER}] CloudDump ${result_text}: ${JOBID}" ${attachments} "${MAILTO}"
 fi
 
 if [ $? -eq 0 ]; then
