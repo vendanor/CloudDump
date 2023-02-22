@@ -11,7 +11,7 @@ services:
       dockerfile: dockerfile-debian/Dockerfile
     volumes:
     #- persistent-data:/persistent-data
-    - ./config:/config
+    - ../config:/config
     - /srv/azdump:/azdump
     - /srv/pgdump:/pgdump
 
@@ -21,10 +21,9 @@ services:
       dockerfile: dockerfile-ubuntu/Dockerfile
     volumes:
     #- persistent-data:/persistent-data
-    - ./config:/config
+    - ../config:/config
     - /srv/azdump:/azdump
     - /srv/pgdump:/pgdump
-
 
   clouddump-fedora:
     build:
@@ -32,10 +31,9 @@ services:
       dockerfile: dockerfile-fedora/Dockerfile
     volumes:
     #- persistent-data:/persistent-data
-    - ./config:/config
+    - ../config:/config
     - /srv/azdump:/azdump
     - /srv/pgdump:/pgdump
-
 
   clouddump-opensuse:
     build:
@@ -43,6 +41,6 @@ services:
       dockerfile: dockerfile-opensuse/Dockerfile
     volumes:
     #- persistent-data:/persistent-data
-    - ./config:/config
+    - ../config:/config
     - /srv/azdump:/azdump
     - /srv/pgdump:/pgdump
