@@ -6,6 +6,7 @@
 
 CONFIGFILE="/config/config.json"
 LOGFILE="/persistent-data/logs/vnclouddump.log"
+MAIL="mutt"
 
 
 if [ "$(jq -r '.settings.DEBUG' ${CONFIGFILE})" = "true" ]; then
@@ -333,7 +334,11 @@ Jobs:
 ${jobs_summary}
 "
 
-echo "${mail_body}" | mail -r "${MAILFROM} <${MAILFROM}>" -s "[Started] CloudDump ${BACKUPSERVER}" "${MAILTO}" || exit 1
+if [ "${MAIL}" = "mutt" ]; then
+  echo "${mail_body}" | EMAIL="${MAILFROM} <${MAILFROM}>" ${MAIL} -s "[Started] CloudDump ${BACKUPSERVER}" "${MAILTO}" || exit 1
+else
+  echo "${mail_body}" | ${MAIL} -r "${MAILFROM} <${MAILFROM}>" -s "[Started] CloudDump ${BACKUPSERVER}" "${MAILTO}" || exit 1
+fi
 
 
 # Setup crontab
