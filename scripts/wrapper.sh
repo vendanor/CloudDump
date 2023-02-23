@@ -431,10 +431,10 @@ if ! [ "${have_mail}" = "1" ]; then
   exit 1
 fi
 
-if [ ${result} = 0 ]; then
-  result_text="SUCCESS"
+if [ ${result} -eq 0 ]; then
+  result_text="Success"
 else
-  result_text="FAILURE"
+  result_text="Failure"
 fi
 
 log "Sending e-mail to ${MAILTO} from ${MAILFROM}."
@@ -465,9 +465,9 @@ See attached logs.
 "
 
 if [ "${MAIL}" = "mutt" ]; then
-  echo "${message}" | EMAIL="Vendanor CloudDump <${MAILFROM}>" ${MAIL} -s "[${BACKUPSERVER}] CloudDump ${result_text}: ${JOBID}" ${attachments} "${MAILTO}"
+  echo "${message}" | EMAIL="${MAILFROM} <${MAILFROM}>" ${MAIL} -s "[${result_text}] CloudDump ${BACKUPSERVER}: ${JOBID}" ${attachments} "${MAILTO}"
 else
-  echo "${message}" | ${MAIL} -r "Vendanor CloudDump <${MAILFROM}>" -s "[${BACKUPSERVER}] CloudDump ${result_text}: ${JOBID}" ${attachments} "${MAILTO}"
+  echo "${message}" | ${MAIL} -r "${MAILFROM} <${MAILFROM}>" -s "[${result_text}] CloudDump ${BACKUPSERVER}: ${JOBID}" ${attachments} "${MAILTO}"
 fi
 
 if [ $? -eq 0 ]; then

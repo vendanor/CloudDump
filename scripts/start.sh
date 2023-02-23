@@ -333,7 +333,7 @@ Jobs:
 ${jobs_summary}
 "
 
-echo "${mail_body}" | mail -r "Vendanor CloudDump <${MAILFROM}>" -s "[${BACKUPSERVER}] CloudDump Started" "${MAILTO}" || exit 1
+echo "${mail_body}" | mail -r "${MAILFROM} <${MAILFROM}>" -s "[Started] CloudDump ${BACKUPSERVER}" "${MAILTO}" || exit 1
 
 
 # Setup crontab
