@@ -12,6 +12,8 @@ MAIL="mutt"
 CONFIGFILE="/config/config.json"
 #CONFIGFILE="${HOME}/Projects/Vendanor/VnCloudDump/config/config.json"
 
+VERSION=$(head -n 1 /VERSION)
+
 
 # Functions
 
@@ -63,7 +65,7 @@ json_array_to_strlist() {
 
 mkdir -p /persistent-data/logs
 
-log "Vendanor CloudDump Wrapper ($0)"
+log "Vendanor CloudDump v${VERSION} Wrapper ($0)"
 
 
 # Check commands
@@ -449,7 +451,7 @@ fi
 
 attachments="${attachments} --"
 
-message="Vendanor CloudDump report
+message="Vendanor CloudDump v${VERSION} report
 
 Backup server: ${BACKUPSERVER}
 Script: ${SCRIPTFILENAME}

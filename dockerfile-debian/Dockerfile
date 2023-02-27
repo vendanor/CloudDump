@@ -9,6 +9,7 @@ RUN apt -y install openssh-client sshfs cifs-utils bc curl tar bzip2 jq dnsutils
 
 RUN cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 
+COPY /VERSION /VERSION
 COPY /scripts/*.sh /usr/local/bin/
 RUN chmod u+x /usr/local/bin/*.sh
 

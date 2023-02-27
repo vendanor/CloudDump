@@ -8,6 +8,8 @@ CONFIGFILE="/config/config.json"
 LOGFILE="/persistent-data/logs/vnclouddump.log"
 MAIL="mutt"
 
+VERSION=$(head -n 1 /VERSION)
+
 
 if [ "$(jq -r '.settings.DEBUG' ${CONFIGFILE})" = "true" ]; then
   set -x
@@ -42,7 +44,7 @@ error() {
 
 mkdir -p /persistent-data/logs
 
-log "Vendanor CloudDump Start ($0)"
+log "Vendanor CloudDump v${VERSION} Start ($0)"
 
 
 # Check commands
@@ -312,7 +314,7 @@ done
 
 # Send startup e-mail
 
-mail_body="CloudDump Started
+mail_body="CloudDump v${VERSION} Started
 
 Configuration:
 
