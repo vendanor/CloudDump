@@ -295,17 +295,16 @@ for ((i = 0; i < jobs; i++)); do
 
   echo "${crontab} /bin/bash ${opt} /usr/local/bin/wrapper.sh ${script} ${jobid} ${jobdebug} >/dev/null" >>"${CRONFILE}" || exit 1
 
-  job_summary="
-Job ID: ${jobid}
+  job_summary="Job ID: ${jobid}
 Script: ${script}
 Crontab entry: ${crontab}
-Debug: ${jobdebug}
-"
+Debug: ${jobdebug}"
 
   if [ "${jobs_summary}" = "" ]; then
     jobs_summary="${job_summary}"
   else
     jobs_summary="${jobs_summary}
+
 ${job_summary}"
   fi
 
@@ -333,6 +332,7 @@ fi
 
   mail_body="${mail_body}
 Jobs:
+
 ${jobs_summary}
 "
 
