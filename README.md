@@ -10,7 +10,7 @@ Example configuration:
 
     {
       "settings": {
-        "BACKUPSERVER": "host.domain.dom",
+        "HOST": "host.domain.dom",
         "SMTPSERVER": "smtp.domain.dom",
         "SMTPPORT": "465",
         "SMTPUSER": "username",
