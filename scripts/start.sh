@@ -98,7 +98,7 @@ if [ ! -r "${CONFIGFILE}" ]; then
   exit 1
 fi
 
-BACKUPSERVER=$(jq -r '.settings.BACKUPSERVER' "${CONFIGFILE}" | sed 's/^null$//g')
+HOST=$(jq -r '.settings.HOST' "${CONFIGFILE}" | sed 's/^null$//g')
 SMTPSERVER=$(jq -r '.settings.SMTPSERVER' "${CONFIGFILE}" | sed 's/^null$//g')
 SMTPPORT=$(jq -r '.settings.SMTPPORT' "${CONFIGFILE}" | sed 's/^null$//g')
 SMTPUSER=$(jq -r '.settings.SMTPUSER' "${CONFIGFILE}" | sed 's/^null$//g')
@@ -108,7 +108,7 @@ MAILTO=$(jq -r '.settings.MAILTO' "${CONFIGFILE}" | sed 's/^null$//g')
 DEBUG=$(jq -r '.settings.DEBUG' "${CONFIGFILE}")
 
 log "Configuration:"
-log "Backup Server: $BACKUPSERVER"
+log "Host: $HOST"
 log "SMTP Server: $SMTPSERVER"
 log "SMTP Port: $SMTPPORT"
 log "SMTP Username: $SMTPUSER"
@@ -318,7 +318,7 @@ mail_body="CloudDump v${VERSION} Started
 
 Configuration:
 
-Backup Server: ${BACKUPSERVER}
+Host: ${HOST}
 SMTP Server: ${SMTPSERVER}
 SMTP Port: ${SMTPPORT}
 SMTP Username: ${SMTPUSER}
@@ -337,9 +337,9 @@ ${jobs_summary}
 "
 
 if [ "${MAIL}" = "mutt" ]; then
-  echo "${mail_body}" | EMAIL="${MAILFROM} <${MAILFROM}>" ${MAIL} -s "[Started] CloudDump ${BACKUPSERVER}" "${MAILTO}" || exit 1
+  echo "${mail_body}" | EMAIL="${MAILFROM} <${MAILFROM}>" ${MAIL} -s "[Started] CloudDump ${HOST}" "${MAILTO}" || exit 1
 else
-  echo "${mail_body}" | ${MAIL} -r "${MAILFROM} <${MAILFROM}>" -s "[Started] CloudDump ${BACKUPSERVER}" "${MAILTO}" || exit 1
+  echo "${mail_body}" | ${MAIL} -r "${MAILFROM} <${MAILFROM}>" -s "[Started] CloudDump ${HOST}" "${MAILTO}" || exit 1
 fi
 
 
