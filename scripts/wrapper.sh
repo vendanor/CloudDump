@@ -236,10 +236,17 @@ if [ "${SCRIPT}" = "azdump.sh" ]; then
       continue
     fi
 
+    delete_destination=$(jq -r ".jobs[${job_idx}].blobstorages[${bs_idx}].delete_destination" "${CONFIGFILE}" | sed 's/^null$//g')
+
+    if [ "${delete_destination}" = "" ]; then
+      delete_destination="false"
+    fi
+
     source_stripped=$(echo "${source}" | cut -d '?' -f 1)
 
     blobstorage="Source: ${source_stripped}
-Destination: ${destination}"
+Destination: ${destination}
+Delete destination: ${delete_destination}"
 
     if [ "${blobstorages}" = "" ]; then
       blobstorages="${blobstorage}"

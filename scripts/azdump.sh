@@ -143,11 +143,17 @@ for ((bs_idx = 0; bs_idx < bs_count; bs_idx++)); do
     continue
   fi
 
+  delete_destination=$(jq -r ".jobs[${job_idx}].blobstorages[${bs_idx}].delete_destination" "${CONFIGFILE}" | sed 's/^null$//g')
+
+  if [ "${delete_destination}" = "" ]; then
+    delete_destination="false"
+  fi
 
   source_stripped=$(echo "${source}" | cut -d '?' -f 1)
 
   print "Source: ${source_stripped}"
   print "Destination: ${destination}"
+  print "Delete destination: ${delete_destination}"
 
 
   # Validate source and destination
@@ -190,7 +196,7 @@ for ((bs_idx = 0; bs_idx < bs_count; bs_idx++)); do
 
   print "Syncing source ${source_stripped} to destination ${destination}..."
 
-  azcopy sync --recursive "${source}" "${destination}"
+  azcopy sync --recursive --delete-destination=${delete_destination} "${source}" "${destination}"
   if [ ${?} -ne 0 ]; then
     error "Sync from source ${source_stripped} to destination ${destination} failed for job index ${job_idx} ID ${JOBID}."
     result=1

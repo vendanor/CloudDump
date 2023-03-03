@@ -37,7 +37,8 @@ Example configuration:
           "blobstorages": [
             {
               "source": "https://example.blob.core.windows.net/test?etc",
-              "destination": "/azdump/azdump1"
+              "destination": "/azdump/azdump1",
+              "delete-destination": true
             }
           ]
         },
