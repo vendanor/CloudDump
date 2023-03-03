@@ -315,7 +315,7 @@ done
 
 mail_body="CloudDump v${VERSION} Started
 
-CONFIGURATION:
+CONFIGURATION
 
 Host: ${HOST}
 SMTP Server: ${SMTPSERVER}
@@ -331,7 +331,7 @@ ${mounts_summary}
 fi
 
   mail_body="${mail_body}
-JOBS:
+JOBS
 
 ${jobs_summary}
 "
