@@ -107,11 +107,11 @@ MAILFROM=$(jq -r '.settings.MAILFROM' "${CONFIGFILE}" | sed 's/^null$//g')
 MAILTO=$(jq -r '.settings.MAILTO' "${CONFIGFILE}" | sed 's/^null$//g')
 DEBUG=$(jq -r '.settings.DEBUG' "${CONFIGFILE}")
 
-log "Configuration:"
+log "CONFIGURATION:"
 log "Host: $HOST"
-log "SMTP Server: $SMTPSERVER"
-log "SMTP Port: $SMTPPORT"
-log "SMTP Username: $SMTPUSER"
+log "SMTP server: $SMTPSERVER"
+log "SMTP port: $SMTPPORT"
+log "SMTP username: $SMTPUSER"
 
 
 # Setup postfix and mutt
@@ -295,9 +295,9 @@ for ((i = 0; i < jobs; i++)); do
 
   echo "${crontab} /bin/bash ${opt} /usr/local/bin/wrapper.sh ${script} ${jobid} ${jobdebug} >/dev/null" >>"${CRONFILE}" || exit 1
 
-  job_summary="Job ID: ${jobid}
+  job_summary="ID: ${jobid}
 Script: ${script}
-Crontab entry: ${crontab}
+Schedule: ${crontab}
 Debug: ${jobdebug}"
 
   if [ "${jobs_summary}" = "" ]; then
@@ -318,9 +318,9 @@ mail_body="CloudDump v${VERSION} Started
 CONFIGURATION
 
 Host: ${HOST}
-SMTP Server: ${SMTPSERVER}
-SMTP Port: ${SMTPPORT}
-SMTP Username: ${SMTPUSER}
+SMTP server: ${SMTPSERVER}
+SMTP port: ${SMTPPORT}
+SMTP username: ${SMTPUSER}
 "
 
 if [ ! "${mounts_summary}" = "" ]; then
@@ -349,7 +349,7 @@ chmod a+x "${CRONFILE}" || exit 1
 crontab -r >/dev/null 2>&1
 crontab "${CRONFILE}" || exit 1
 
-log "Cron jobs:"
+log "JOBS:"
 crontab -l || exit 1
 crontab -l >>"${LOGFILE}" || exit 1
 
