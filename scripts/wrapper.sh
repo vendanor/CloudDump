@@ -388,7 +388,7 @@ ${entry_server}"
 
   done
 
-  configuration="Crontab entry: ${crontab}
+  configuration="Schedule: ${crontab}
 Debug: ${debug}
 ${entry_servers}"
 
@@ -465,10 +465,10 @@ ID: ${JOBID}
 Script: ${SCRIPTFILENAME}
 ${configuration}
 
-Result: ${result_text}
 Started: ${time_start_timestamp}
 Completed: $(timestamp)
 Time elapsed: $((time_end - time_start))s
+Result: ${result_text}
 
 See attached logs.
 "
