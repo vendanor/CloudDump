@@ -38,7 +38,7 @@ Example configuration:
             {
               "source": "https://example.blob.core.windows.net/test?etc",
               "destination": "/azdump/azdump1",
-              "delete-destination": true
+              "delete_destination": true
             }
           ]
         },
