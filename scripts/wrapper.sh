@@ -169,7 +169,7 @@ if [ ! -f "${CONFIGFILE}" ]; then
   exit 1
 fi
 
-BACKUPSERVER=$(jq -r '.settings.BACKUPSERVER' "${CONFIGFILE}" | sed 's/^null$//g')
+HOST=$(jq -r '.settings.HOST' "${CONFIGFILE}" | sed 's/^null$//g')
 MAILFROM=$(jq -r '.settings.MAILFROM' "${CONFIGFILE}" | sed 's/^null$//g')
 MAILTO=$(jq -r '.settings.MAILTO' "${CONFIGFILE}" | sed 's/^null$//g')
 
@@ -257,7 +257,7 @@ ${blobstorage}"
 
   done
 
-  configuration="Crontab entry: ${crontab}
+  configuration="Schedule: ${crontab}
 Debug: ${debug}
 ${blobstorages}"
 
@@ -458,11 +458,11 @@ fi
 
 attachments="${attachments} --"
 
-message="Vendanor CloudDump v${VERSION} report
+message="Vendanor CloudDump v${VERSION} Job report
 
-Backup server: ${BACKUPSERVER}
+Host: ${HOST}
+ID: ${JOBID}
 Script: ${SCRIPTFILENAME}
-Job ID: ${JOBID}
 ${configuration}
 
 Result: ${result_text}
@@ -474,9 +474,9 @@ See attached logs.
 "
 
 if [ "${MAIL}" = "mutt" ]; then
-  echo "${message}" | EMAIL="${MAILFROM} <${MAILFROM}>" ${MAIL} -s "[${result_text}] CloudDump ${BACKUPSERVER}: ${JOBID}" ${attachments} "${MAILTO}"
+  echo "${message}" | EMAIL="${MAILFROM} <${MAILFROM}>" ${MAIL} -s "[${result_text}] CloudDump ${HOST}: ${JOBID}" ${attachments} "${MAILTO}"
 else
-  echo "${message}" | ${MAIL} -r "${MAILFROM} <${MAILFROM}>" -s "[${result_text}] CloudDump ${BACKUPSERVER}: ${JOBID}" ${attachments} "${MAILTO}"
+  echo "${message}" | ${MAIL} -r "${MAILFROM} <${MAILFROM}>" -s "[${result_text}] CloudDump ${HOST}: ${JOBID}" ${attachments} "${MAILTO}"
 fi
 
 if [ $? -eq 0 ]; then
