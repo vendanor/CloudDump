@@ -245,8 +245,8 @@ if [ "${SCRIPT}" = "azdump.sh" ]; then
     source_stripped=$(echo "${source}" | cut -d '?' -f 1)
 
     blobstorage="Source: ${source_stripped}
-Destination: ${destination}
-Delete destination: ${delete_destination}"
+Destination: ${destination}   
+Delete destination: ${delete_destination}   "
 
     if [ "${blobstorages}" = "" ]; then
       blobstorages="${blobstorage}"
