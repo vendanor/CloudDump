@@ -169,7 +169,7 @@ if [ ! -f "${CONFIGFILE}" ]; then
   exit 1
 fi
 
-BACKUPSERVER=$(jq -r '.settings.BACKUPSERVER' "${CONFIGFILE}" | sed 's/^null$//g')
+HOST=$(jq -r '.settings.HOST' "${CONFIGFILE}" | sed 's/^null$//g')
 MAILFROM=$(jq -r '.settings.MAILFROM' "${CONFIGFILE}" | sed 's/^null$//g')
 MAILTO=$(jq -r '.settings.MAILTO' "${CONFIGFILE}" | sed 's/^null$//g')
 
@@ -245,8 +245,8 @@ if [ "${SCRIPT}" = "azdump.sh" ]; then
     source_stripped=$(echo "${source}" | cut -d '?' -f 1)
 
     blobstorage="Source: ${source_stripped}
-Destination: ${destination}
-Delete destination: ${delete_destination}"
+Destination: ${destination}   
+Delete destination: ${delete_destination}   "
 
     if [ "${blobstorages}" = "" ]; then
       blobstorages="${blobstorage}"
@@ -257,7 +257,7 @@ ${blobstorage}"
 
   done
 
-  configuration="Crontab entry: ${crontab}
+  configuration="Schedule: ${crontab}
 Debug: ${debug}
 ${blobstorages}"
 
@@ -388,7 +388,7 @@ ${entry_server}"
 
   done
 
-  configuration="Crontab entry: ${crontab}
+  configuration="Schedule: ${crontab}
 Debug: ${debug}
 ${entry_servers}"
 
@@ -458,25 +458,25 @@ fi
 
 attachments="${attachments} --"
 
-message="Vendanor CloudDump v${VERSION} report
+message="Vendanor CloudDump v${VERSION} Job report
 
-Backup server: ${BACKUPSERVER}
+Host: ${HOST}
+ID: ${JOBID}
 Script: ${SCRIPTFILENAME}
-Job ID: ${JOBID}
 ${configuration}
 
-Result: ${result_text}
 Started: ${time_start_timestamp}
 Completed: $(timestamp)
 Time elapsed: $((time_end - time_start))s
+Result: ${result_text}
 
 See attached logs.
 "
 
 if [ "${MAIL}" = "mutt" ]; then
-  echo "${message}" | EMAIL="${MAILFROM} <${MAILFROM}>" ${MAIL} -s "[${result_text}] CloudDump ${BACKUPSERVER}: ${JOBID}" ${attachments} "${MAILTO}"
+  echo "${message}" | EMAIL="${MAILFROM} <${MAILFROM}>" ${MAIL} -s "[${result_text}] CloudDump ${HOST}: ${JOBID}" ${attachments} "${MAILTO}"
 else
-  echo "${message}" | ${MAIL} -r "${MAILFROM} <${MAILFROM}>" -s "[${result_text}] CloudDump ${BACKUPSERVER}: ${JOBID}" ${attachments} "${MAILTO}"
+  echo "${message}" | ${MAIL} -r "${MAILFROM} <${MAILFROM}>" -s "[${result_text}] CloudDump ${HOST}: ${JOBID}" ${attachments} "${MAILTO}"
 fi
 
 if [ $? -eq 0 ]; then
