@@ -1,8 +1,8 @@
 # Vendanor CloudDump [![Publish Status](https://github.com/vendanor/CloudDump/workflows/publish/badge.svg)](https://github.com/vendanor/CloudDump/actions)
 
-CloudDump is a tool that runs inside a Docker container and enables scheduled dumps of data from Azure data storage, PostgreSQL databases, and to SMB shares as a destination, with email reports generated for each job.
+CloudDump is a tool that runs inside a Docker container and enables scheduled dumps of data from Azure data storage and PostgreSQL databases. Email reports are generated for each job and SMB shares can be mounted and used as dump destinations.
 
-While CloudDump can be a useful component of a disaster recovery backup regime, it should not be used as a standalone backup tool, as it offers limited or no backup history, retention policies, and archival features. The tool is designed to create a current-state backup, which can then be fed into other tools for fully featured file-level backups.
+While CloudDump can be a useful component of a disaster recovery backup regime, it should not be used as a standalone backup tool, as it offers limited or no backup history, retention policies, and archival features. The tool is designed to create a current-state dump, which can then be fed into other tools for fully featured file-level backup system.
 
 ## Running
 
