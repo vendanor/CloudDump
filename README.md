@@ -6,7 +6,7 @@ Do note that this tool is not a backup tool and has limited or no retention and 
 
 It can also mount SMB shares, and use it as a dump destination.
 
-# Running
+## Running
 
 ```docker 
 docker run \
@@ -90,3 +90,6 @@ docker run \
       ]
     }
        
+## License
+
+This tool is released under the MIT License.
