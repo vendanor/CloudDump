@@ -1,12 +1,23 @@
-Vendanor CloudDump [![Publish Status](https://github.com/vendanor/CloudDump/workflows/publish/badge.svg)](https://github.com/vendanor/CloudDump/actions)
-====
+# Vendanor CloudDump [![Publish Status](https://github.com/vendanor/CloudDump/workflows/publish/badge.svg)](https://github.com/vendanor/CloudDump/actions)
 
+A tool that runs inside Docker and dumps data from azure data storage and PostgreSQL databases on a configurable schedule sending email reports for each job.
 
-### Configuration:
+Do note that this tool is not a backup tool and has limited or no retention and archiving features. Its primary purpose is to dump the current state of the data. The reason why pg_dump is used instead of incremental backups for PostgreSQL databases is that this feature is not always available. Azure data storage dumps are differential.
 
-Create config/config.json
+It can also mount SMB shares, and use it as a dump destination.
 
-Example configuration:
+# Running
+
+```docker 
+docker run \
+  --name "clouddump"  \
+  --mount type=bind,source=config.json,target=/config/config.json,readonly \
+  --volume /clouddump/:/mnt/clouddump \
+  -d --restart always \
+  ghcr.io/vendanor/clouddump:latest
+```
+
+### config.json example
 
     {
       "settings": {
@@ -20,8 +31,8 @@ Example configuration:
         "DEBUG": false,
         "mount": [
           {
-            "path": "host:/mnt/backup",
-            "mountpoint": "/mnt/backup",
+            "path": "host:/share",
+            "mountpoint": "/mnt/smb",
             "username": "user",
             "password": "pass",
             "privkey": ""
@@ -55,7 +66,7 @@ Example configuration:
               "pass": "password",
               "databases": [
                 {
-                  "vendanorstaging2": {
+                  "mydb": {
                     "tables_included": [],
                     "tables_excluded": [
                       "table1",
@@ -78,25 +89,4 @@ Example configuration:
         }
       ]
     }
-
-
-
-
-### Build
-
-    sudo docker-compose build --no-cache clouddump-ubuntu
-
-
-### Start
-
-    sudo docker-compose up -d clouddump-ubuntu
-
-
-### Stop
-
-    sudo docker-compose stop
-
-
-### Clear
-
-    sudo docker-compose down
+       
