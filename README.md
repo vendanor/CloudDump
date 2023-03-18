@@ -1,12 +1,21 @@
-Vendanor CloudDump [![Publish Status](https://github.com/vendanor/CloudDump/workflows/publish/badge.svg)](https://github.com/vendanor/CloudDump/actions)
-====
+# Vendanor CloudDump [![Publish Status](https://github.com/vendanor/CloudDump/workflows/publish/badge.svg)](https://github.com/vendanor/CloudDump/actions)
 
+CloudDump is a tool that runs inside a Docker container and enables cron tab scheduled dumps of data from Azure data storage and PostgreSQL databases. Email reports are generated for each job and SMB shares can be mounted and used as destinations.
 
-### Configuration:
+While CloudDump can be a useful component of a disaster recovery backup regime, it should not be used as a standalone backup tool, as it offers limited or no backup history, retention policies, and archival features. The tool is designed to create a current-state backup, which can then be fed into other tools for fully featured file-level backups.
 
-Create config/config.json
+## Running
 
-Example configuration:
+```docker 
+docker run \
+  --name "clouddump"  \
+  --mount type=bind,source=config.json,target=/config/config.json,readonly \
+  --volume /clouddump/:/mnt/clouddump \
+  -d --restart always \
+  ghcr.io/vendanor/clouddump:latest
+```
+
+### config.json example
 
     {
       "settings": {
@@ -20,8 +29,8 @@ Example configuration:
         "DEBUG": false,
         "mount": [
           {
-            "path": "host:/mnt/backup",
-            "mountpoint": "/mnt/backup",
+            "path": "host:/share",
+            "mountpoint": "/mnt/smb",
             "username": "user",
             "password": "pass",
             "privkey": ""
@@ -55,7 +64,7 @@ Example configuration:
               "pass": "password",
               "databases": [
                 {
-                  "vendanorstaging2": {
+                  "mydb": {
                     "tables_included": [],
                     "tables_excluded": [
                       "table1",
@@ -78,25 +87,7 @@ Example configuration:
         }
       ]
     }
+       
+## License
 
-
-
-
-### Build
-
-    sudo docker-compose build --no-cache clouddump-ubuntu
-
-
-### Start
-
-    sudo docker-compose up -d clouddump-ubuntu
-
-
-### Stop
-
-    sudo docker-compose stop
-
-
-### Clear
-
-    sudo docker-compose down
+This tool is released under the MIT License.
