@@ -16,14 +16,15 @@ fi
 
 azcopy_filename="azcopy_linux_amd64_${azcopy_latest_version}.tar.gz"
 azcopy_url="https://azcopyvnext.azureedge.net/release${azcopy_latest_date}/${azcopy_filename}"
+azcopy_install="${current_dir}/../scripts/azcopy-install.sh"
 
-azcopy_current_version=$(cat "${current_dir}/azcopy-install.sh" | sed -n "s,^azcopy_version=\"\(.*\)\"\$,\1,p")
-azcopy_current_date=$(cat "${current_dir}/azcopy-install.sh" | sed -n "s,^azcopy_date=\"\(.*\)\"\$,\1,p")
+azcopy_current_version=$(cat "${azcopy_install}" | sed -n "s,^azcopy_version=\"\(.*\)\"\$,\1,p")
+azcopy_current_date=$(cat "${azcopy_install}" | sed -n "s,^azcopy_date=\"\(.*\)\"\$,\1,p")
 
 if [ "${azcopy_latest_version}" = "${azcopy_current_version}" ] && [ "${azcopy_latest_date}" = "${azcopy_current_date}" ]; then
   echo "Have latest version ${azcopy_current_version} (${azcopy_current_date})"
 else
   echo "Updating from version ${azcopy_current_version} (${azcopy_current_date}) to ${azcopy_latest_version} (${azcopy_latest_date})"
-  sed -i "s/azcopy_version=\".*\"/azcopy_version=\"${azcopy_latest_version}\"/g" "${current_dir}/azcopy-install.sh"
-  sed -i "s/azcopy_date=\".*\"/azcopy_date=\"${azcopy_latest_date}\"/g" "${current_dir}/azcopy-install.sh"
+  sed -i "s/azcopy_version=\".*\"/azcopy_version=\"${azcopy_latest_version}\"/g" "${azcopy_install}"
+  sed -i "s/azcopy_date=\".*\"/azcopy_date=\"${azcopy_latest_date}\"/g" "${azcopy_install}"
 fi
