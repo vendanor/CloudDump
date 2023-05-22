@@ -458,19 +458,22 @@ fi
 
 attachments="${attachments} --"
 
-message="Vendanor CloudDump v${VERSION} Job report
+message="JOB REPORT
 
 Host: ${HOST}
-ID: ${JOBID}
-Script: ${SCRIPTFILENAME}
-${configuration}
-
+Result: ${result_text}
 Started: ${time_start_timestamp}
 Completed: $(timestamp)
-Time elapsed: $((time_end - time_start))s
-Result: ${result_text}
+Time elapsed: $((time_end - time_start)/60) minutes
 
-See attached logs.
+Script: ${SCRIPTFILENAME}
+ID: ${JOBID}
+Configuration:
+${configuration}
+
+For more information consult the attached logs.
+
+Vendanor CloudDump v${VERSION}
 "
 
 if [ "${MAIL}" = "mutt" ]; then
