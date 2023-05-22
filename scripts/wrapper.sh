@@ -464,7 +464,7 @@ Host: ${HOST}
 Result: ${result_text}
 Started: ${time_start_timestamp}
 Completed: $(timestamp)
-Time elapsed: $((time_end - time_start)/60) minutes
+Time elapsed: $(((time_end - time_start)/60)) minutes $(((time_end - time_start)%60)) seconds
 
 Script: ${SCRIPTFILENAME}
 ID: ${JOBID}
