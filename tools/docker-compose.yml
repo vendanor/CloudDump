@@ -9,6 +9,11 @@ services:
     build:
       context: ../
       dockerfile: dockerfile-debian/Dockerfile
+    devices:
+    - /dev/fuse:/dev/fuse
+    cap_add:
+    - DAC_READ_SEARCH
+    - SYS_ADMIN
     volumes:
     #- persistent-data:/persistent-data
     - ../config:/config
@@ -19,6 +24,11 @@ services:
     build:
       context: ../
       dockerfile: dockerfile-ubuntu/Dockerfile
+    devices:
+    - /dev/fuse:/dev/fuse
+    cap_add:
+    - DAC_READ_SEARCH
+    - SYS_ADMIN
     volumes:
     #- persistent-data:/persistent-data
     - ../config:/config
@@ -29,6 +39,11 @@ services:
     build:
       context: ../
       dockerfile: dockerfile-fedora/Dockerfile
+    devices:
+    - /dev/fuse:/dev/fuse
+    cap_add:
+    - DAC_READ_SEARCH
+    - SYS_ADMIN
     volumes:
     #- persistent-data:/persistent-data
     - ../config:/config
@@ -39,6 +54,11 @@ services:
     build:
       context: ../
       dockerfile: dockerfile-opensuse/Dockerfile
+    devices:
+    - /dev/fuse:/dev/fuse
+    cap_add:
+    - DAC_READ_SEARCH
+    - SYS_ADMIN
     volumes:
     #- persistent-data:/persistent-data
     - ../config:/config
