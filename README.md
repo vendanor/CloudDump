@@ -15,6 +15,11 @@ docker run \
   ghcr.io/vendanor/clouddump:latest
 ```
 
+To give mount permissions, add capabilities DAC_READ_SEARCH and SYS_ADMIN. Example.:
+
+```docker run --name "clouddump" --cap-add DAC_READ_SEARCH --cap-add SYS_ADMIN --mount type=bind,source=config.json,target=/config/config.json,readonly --volume /clouddump/:/mnt/clouddump -d --restart always ghcr.io/vendanor/clouddump:latest```
+
+
 ### config.json example
 
     {
