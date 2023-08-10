@@ -2,7 +2,7 @@
 
 current_dir=$(dirname $0)
 
-azcopy_latest_version="$(wget -q -O- 'https://github.com/Azure/azure-storage-azcopy/releases' | sed -n 's,.*releases/tag/\([^"&;]*\)".*,\1,p' | sed 's/^v//g' | sort -V | tail -1)"
+azcopy_latest_version="$(wget -q -O- 'https://github.com/Azure/azure-storage-azcopy/releases' | sed -n 's,.*releases/tag/\([^"&;]*\)".*,\1,p' | grep -v '^preview' | sed 's/^v//g' | sort -V | tail -1)"
 if [ ${azcopy_latest_version} = "" ]; then
   echo "Failed to get latest azcopy version."
   exit 1
