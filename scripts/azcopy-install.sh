@@ -4,7 +4,7 @@ azcopy_version="10.18.1"
 azcopy_date="20230420"
 
 azcopy_filename="azcopy_linux_amd64_${azcopy_version}.tar.gz"
-azcopy_url="https://azcopyvnext.azureedge.net/release${azcopy_date}/${azcopy_filename}"
+azcopy_url="https://azcopyvnext.azureedge.net/releases/release-${azcopy_version}-${azcopy_date}/${azcopy_filename}"
 
 curl -f -O -L --output-dir "/tmp" "${azcopy_url}" || exit 1
 tar -C /tmp -xf "/tmp/${azcopy_filename}" || exit 1
