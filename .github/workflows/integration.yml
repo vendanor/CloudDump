@@ -11,7 +11,7 @@ jobs:
     name: Shell check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install shellcheck
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -34,7 +34,7 @@ jobs:
        distro: [ fedora, opensuse, debian, ubuntu ]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v2
