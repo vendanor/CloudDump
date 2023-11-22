@@ -313,8 +313,7 @@ done
 
 # Send startup e-mail
 
-mail_body="
-CloudDump ${HOST} STARTED
+mail_body="CloudDump ${HOST} STARTED
 
 "
 
