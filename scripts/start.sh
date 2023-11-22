@@ -313,14 +313,11 @@ done
 
 # Send startup e-mail
 
-mail_body="CloudDump v${VERSION} Started
+mail_body="
 
-CONFIGURATION
+STARTED
 
 Host: ${HOST}
-SMTP server: ${SMTPSERVER}
-SMTP port: ${SMTPPORT}
-SMTP username: ${SMTPUSER}
 "
 
 if [ ! "${mounts_summary}" = "" ]; then
@@ -342,6 +339,9 @@ else
   echo "${mail_body}" | ${MAIL} -r "${MAILFROM} <${MAILFROM}>" -s "[Started] CloudDump ${HOST}" "${MAILTO}" || exit 1
 fi
 
+mail_body="${mail_body}
+
+CloudDump v${VERSION}"
 
 # Setup crontab
 
