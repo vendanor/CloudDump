@@ -458,7 +458,7 @@ fi
 
 attachments="${attachments} --"
 
-message="JOB REPORT
+message="JOB REPORT (${result_text})
 
 Host: ${HOST}
 Result: ${result_text}
