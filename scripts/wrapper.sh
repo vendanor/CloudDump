@@ -460,13 +460,11 @@ attachments="${attachments} --"
 
 message="CloudDump ${HOST} JOB REPORT (${result_text})
 
+Script: ${SCRIPTFILENAME}
+ID: ${JOBID}
 Started: ${time_start_timestamp}
 Completed: $(timestamp)
 Time elapsed: $(((time_end - time_start)/60)) minutes $(((time_end - time_start)%60)) seconds
-
-Script: ${SCRIPTFILENAME}
-ID: ${JOBID}
-Configuration:
 ${configuration}
 
 For more information consult the attached logs.
