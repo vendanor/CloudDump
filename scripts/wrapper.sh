@@ -465,6 +465,9 @@ ID: ${JOBID}
 Started: ${time_start_timestamp}
 Completed: $(timestamp)
 Time elapsed: $(((time_end - time_start)/60)) minutes $(((time_end - time_start)%60)) seconds
+
+CONFIGURATION
+
 ${configuration}
 
 For more information consult the attached logs.
