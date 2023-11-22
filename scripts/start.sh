@@ -314,10 +314,8 @@ done
 # Send startup e-mail
 
 mail_body="
+CloudDump ${HOST} STARTED
 
-STARTED
-
-Host: ${HOST}
 "
 
 if [ ! "${mounts_summary}" = "" ]; then
