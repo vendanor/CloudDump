@@ -458,10 +458,8 @@ fi
 
 attachments="${attachments} --"
 
-message="JOB REPORT (${result_text})
+message="CloudDump ${HOST} JOB REPORT (${result_text})
 
-Host: ${HOST}
-Result: ${result_text}
 Started: ${time_start_timestamp}
 Completed: $(timestamp)
 Time elapsed: $(((time_end - time_start)/60)) minutes $(((time_end - time_start)%60)) seconds
