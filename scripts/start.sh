@@ -313,7 +313,12 @@ done
 
 # Send startup e-mail
 
-mail_body="CloudDump ${HOST} STARTED
+mail_body="CloudDump ${HOST}
+
+STARTED
+
+Debug: ${DEBUG}
+SMTP server: ${SMTPSERVER}
 
 "
 
@@ -330,15 +335,16 @@ JOBS
 ${jobs_summary}
 "
 
+mail_body="${mail_body}
+
+Vendanor CloudDump v${VERSION}"
+
 if [ "${MAIL}" = "mutt" ]; then
   echo "${mail_body}" | EMAIL="${MAILFROM} <${MAILFROM}>" ${MAIL} -s "[Started] CloudDump ${HOST}" "${MAILTO}" || exit 1
 else
   echo "${mail_body}" | ${MAIL} -r "${MAILFROM} <${MAILFROM}>" -s "[Started] CloudDump ${HOST}" "${MAILTO}" || exit 1
 fi
 
-mail_body="${mail_body}
-
-CloudDump v${VERSION}"
 
 # Setup crontab
 
