@@ -458,7 +458,9 @@ fi
 
 attachments="${attachments} --"
 
-message="CloudDump ${HOST} JOB REPORT (${result_text})
+message="CloudDump ${HOST}
+
+JOB REPORT (${result_text})
 
 Script: ${SCRIPTFILENAME}
 ID: ${JOBID}
