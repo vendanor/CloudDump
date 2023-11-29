@@ -319,7 +319,6 @@ STARTED
 
 Debug: ${DEBUG}
 SMTP server: ${SMTPSERVER}
-
 "
 
 if [ ! "${mounts_summary}" = "" ]; then
@@ -336,7 +335,6 @@ ${jobs_summary}
 "
 
 mail_body="${mail_body}
-
 Vendanor CloudDump v${VERSION}"
 
 if [ "${MAIL}" = "mutt" ]; then
