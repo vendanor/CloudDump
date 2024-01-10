@@ -60,6 +60,18 @@ json_array_to_strlist() {
 
 }
 
+function exit_clean() {
+
+  log "$(basename "$0") (PID: $$) received exit."
+
+  if [ -f "${LOCKFILE}" ]; then
+    rm -f "${LOCKFILE}"
+  fi
+
+  exit 0
+
+}
+
 
 # Init
 
@@ -67,6 +79,8 @@ mkdir -p /persistent-data/logs
 
 log "Vendanor CloudDump v${VERSION} Wrapper ($0)"
 
+trap 'exit_clean' EXIT
+trap 'printf "%s\n" "Ctr + C"; exit_clean' SIGINT
 
 # Check commands
 
