@@ -43,6 +43,7 @@ error() {
 # Init
 
 mkdir -p /persistent-data/logs
+rm -rf /tmp/LOCKFILE_*
 
 log "Vendanor CloudDump v${VERSION} Start ($0)"
 
