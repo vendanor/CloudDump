@@ -64,6 +64,10 @@ function exit_clean() {
 
   log "$(basename "$0") (PID: $$) received exit."
 
+  if [ -f "${LOGFILE}" ]; then
+    rm -f "${LOGFILE}"
+  fi
+
   if [ -f "${LOCKFILE}" ]; then
     rm -f "${LOCKFILE}"
   fi
@@ -442,11 +446,6 @@ fi
 time_end=$(date +%s)
 
 
-# Remove lockfile
-
-rm -f "${LOCKFILE}"
-
-
 # Send report on e-mail
 
 if ! [ "${have_mail}" = "1" ]; then
@@ -495,12 +494,6 @@ if [ "${MAIL}" = "mutt" ]; then
   echo "${message}" | EMAIL="${MAILFROM} <${MAILFROM}>" ${MAIL} -s "[${result_text}] CloudDump ${HOST}: ${JOBID}" ${attachments} "${MAILTO}"
 else
   echo "${message}" | ${MAIL} -r "${MAILFROM} <${MAILFROM}>" -s "[${result_text}] CloudDump ${HOST}: ${JOBID}" ${attachments} "${MAILTO}"
-fi
-
-if [ $? -eq 0 ]; then
-  rm -f "${LOGFILE}"
-else
-  exit 1
 fi
 
 
