@@ -463,10 +463,13 @@ log "Sending e-mail to ${MAILTO} from ${MAILFROM}."
 
 attachments="${mailattachopt} ${LOGFILE}"
 
-azcopy_logfile=$(grep '^Log file is located at: .*\.log$' ${LOGFILE} | sed -e 's/Log file is located at: \(.*\)/\1/')
-
-if [ ! "${azcopy_logfile}" = "" ]; then
-  attachments="${attachments} ${mailattachopt} ${azcopy_logfile}"
+azcopy_logfiles=$(grep '^Log file is located at: .*\.log$' ${LOGFILE} | sed -e 's/Log file is located at: \(.*\)/\1/' | sed 's/\r$//' | tr '\n' ' ' | sed 's/ $//g')
+if ! [ "${azcopy_logfiles}" = "" ]; then
+  for azcopy_logfile in ${azcopy_logfiles}; do
+    if [ ! "${azcopy_logfile}" = "" ] && [ -f "${azcopy_logfile}" ]; then
+      attachments="${attachments} ${mailattachopt} ${azcopy_logfile}"
+    fi
+  done
 fi
 
 attachments="${attachments} --"
