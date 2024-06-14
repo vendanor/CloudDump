@@ -1,4 +1,4 @@
-FROM opensuse/leap:15.5
+FROM opensuse/leap:15.6
 
 RUN zypper -n --gpg-auto-import-keys ref
 RUN zypper -n --gpg-auto-import-keys up
