@@ -1,7 +1,7 @@
 #!/bin/sh
 
-azcopy_version="10.22.1"
-azcopy_date="20231220"
+azcopy_version="10.27.1"
+azcopy_date="20241113"
 
 azcopy_filename="azcopy_linux_amd64_${azcopy_version}.tar.gz"
 azcopy_url="https://azcopyvnext.azureedge.net/releases/release-${azcopy_version}-${azcopy_date}/${azcopy_filename}"
