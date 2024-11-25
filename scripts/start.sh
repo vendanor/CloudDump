@@ -294,7 +294,7 @@ for ((i = 0; i < jobs; i++)); do
     opt="-x"
   fi
 
-  echo "${crontab} /bin/bash ${opt} /usr/local/bin/wrapper.sh ${script} ${jobid} ${jobdebug} >/dev/null" >>"${CRONFILE}" || exit 1
+  echo "${crontab} /bin/bash ${opt} /usr/local/bin/wrapper.sh ${script} ${jobid} ${jobdebug} >/proc/\$(/sbin/pidof ${CRON})/fd/1" >>"${CRONFILE}" || exit 1
 
   job_summary="ID: ${jobid}
 Script: ${script}
