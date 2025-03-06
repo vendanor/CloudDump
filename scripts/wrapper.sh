@@ -500,4 +500,4 @@ else
 fi
 
 
-exit ${result}
+exit "${result}"

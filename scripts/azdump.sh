@@ -196,7 +196,7 @@ for ((bs_idx = 0; bs_idx < bs_count; bs_idx++)); do
 
   print "Syncing source ${source_stripped} to destination ${destination}..."
 
-  azcopy sync --recursive --delete-destination=${delete_destination} "${source}" "${destination}"
+  azcopy sync --recursive --delete-destination="${delete_destination}" "${source}" "${destination}"
   if [ ${?} -ne 0 ]; then
     error "Sync from source ${source_stripped} to destination ${destination} failed for job index ${job_idx} ID ${JOBID}."
     result=1
@@ -206,5 +206,5 @@ done
 
 
 if ! [ "${result}" = "" ]; then
-  exit ${result}
+  exit "${result}"
 fi
