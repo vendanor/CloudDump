@@ -9,31 +9,7 @@ updates:
       timezone: Europe/Oslo
 
   - package-ecosystem: docker
-    directory: "/dockerfile-fedora"
-    schedule:
-      interval: daily
-      time: "08:00"
-      timezone: Europe/Oslo
-    open-pull-requests-limit: 10
-
-  - package-ecosystem: docker
-    directory: "/dockerfile-opensuse"
-    schedule:
-      interval: daily
-      time: "08:00"
-      timezone: Europe/Oslo
-    open-pull-requests-limit: 10
-
-  - package-ecosystem: docker
-    directory: "/dockerfile-debian"
-    schedule:
-      interval: daily
-      time: "08:00"
-      timezone: Europe/Oslo
-    open-pull-requests-limit: 10
-
-  - package-ecosystem: docker
-    directory: "/dockerfile-ubuntu"
+    directory: "/"
     schedule:
       interval: daily
       time: "08:00"
