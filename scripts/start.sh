@@ -206,9 +206,9 @@ ${mount_summary}"
     if [ $? -eq 0 ]; then # SMB
       if [ ! "${username}" = "" ]; then
         if [ "${password}" = "" ] ; then
-          mount_cifs_opt="-o username=${username}"
+          mount_cifs_opt="-o username=${username},sec=ntlmv2"
         else
-          mount_cifs_opt="-o username=${username},password=${password}"
+          mount_cifs_opt="-o username=${username},password=${password},sec=ntlmv2"
         fi
       fi
       log "Mounting ${path} to ${mountpoint} using mount.cifs."
