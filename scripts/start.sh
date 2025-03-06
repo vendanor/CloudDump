@@ -100,19 +100,10 @@ if [ ! -r "${CONFIGFILE}" ]; then
 fi
 
 HOST=$(jq -r '.settings.HOST' "${CONFIGFILE}" | sed 's/^null$//g')
-SMTPSERVER=$(jq -r '.settings.SMTPSERVER' "${CONFIGFILE}" | sed 's/^null$//g')
-SMTPPORT=$(jq -r '.settings.SMTPPORT' "${CONFIGFILE}" | sed 's/^null$//g')
-SMTPUSER=$(jq -r '.settings.SMTPUSER' "${CONFIGFILE}" | sed 's/^null$//g')
-SMTPPASS=$(jq -r '.settings.SMTPPASS' "${CONFIGFILE}" | sed 's/^null$//g')
-MAILFROM=$(jq -r '.settings.MAILFROM' "${CONFIGFILE}" | sed 's/^null$//g')
-MAILTO=$(jq -r '.settings.MAILTO' "${CONFIGFILE}" | sed 's/^null$//g')
 DEBUG=$(jq -r '.settings.DEBUG' "${CONFIGFILE}")
 
 log "CONFIGURATION:"
 log "Host: $HOST"
-log "SMTP server: $SMTPSERVER"
-log "SMTP port: $SMTPPORT"
-log "SMTP username: $SMTPUSER"
 
 # SMB Mounting on Startup
 smb_mounts=$(jq -r '.settings.smb_mounts | length' "${CONFIGFILE}")
@@ -132,6 +123,12 @@ if [ "$smb_mounts" -gt 0 ]; then
 fi
 
 # Setup postfix and mutt
+SMTPSERVER=$(jq -r '.settings.SMTPSERVER' "${CONFIGFILE}" | sed 's/^null$//g')
+SMTPPORT=$(jq -r '.settings.SMTPPORT' "${CONFIGFILE}" | sed 's/^null$//g')
+SMTPUSER=$(jq -r '.settings.SMTPUSER' "${CONFIGFILE}" | sed 's/^null$//g')
+SMTPPASS=$(jq -r '.settings.SMTPPASS' "${CONFIGFILE}" | sed 's/^null$//g')
+MAILFROM=$(jq -r '.settings.MAILFROM' "${CONFIGFILE}" | sed 's/^null$//g')
+MAILTO=$(jq -r '.settings.MAILTO' "${CONFIGFILE}" | sed 's/^null$//g')
 
 postconf maillog_file=/var/log/postfix.log || exit 1
 postconf inet_interfaces=127.0.0.1 || exit 1
@@ -147,6 +144,9 @@ touch /etc/postfix/sasl_passwd || exit 1
 touch /etc/Muttrc || exit 1
 
 if ! [ "${SMTPSERVER}" = "" ] && ! [ "${SMTPPORT}" = "" ]; then
+  log "SMTP server: $SMTPSERVER"
+  log "SMTP port: $SMTPPORT"
+  log "SMTP username: $SMTPUSER"
   if [ "$SMTPUSER" = "" ] && [ "$SMTPPASS" = "" ]; then
     SMTPURL="smtps://${SMTPSERVER}:${SMTPPORT}"
   else
