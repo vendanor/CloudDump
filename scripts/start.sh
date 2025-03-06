@@ -105,22 +105,6 @@ DEBUG=$(jq -r '.settings.DEBUG' "${CONFIGFILE}")
 log "CONFIGURATION:"
 log "Host: $HOST"
 
-# SMB Mounting on Startup
-smb_mounts=$(jq -r '.settings.smb_mounts | length' "${CONFIGFILE}")
-if [ "$smb_mounts" -gt 0 ]; then
-  for ((i = 0; i < smb_mounts; i++)); do
-    smb_path=$(jq -r ".settings.smb_mounts[$i].path" "${CONFIGFILE}" | sed 's/^null$//g')
-    smb_mountpoint=$(jq -r ".settings.smb_mounts[$i].mountpoint" "${CONFIGFILE}" | sed 's/^null$//g')
-    smb_username=$(jq -r ".settings.smb_mounts[$i].username" "${CONFIGFILE}" | sed 's/^null$//g')
-    smb_password=$(jq -r ".settings.smb_mounts[$i].password" "${CONFIGFILE}" | sed 's/^null$//g')
-    
-    if [ -n "$smb_path" ] && [ -n "$smb_mountpoint" ]; then
-      log "Mounting SMB share $smb_path to $smb_mountpoint"
-      mkdir -p "$smb_mountpoint"
-      mount.cifs "$smb_path" "$smb_mountpoint" -o username="$smb_username",password="$smb_password" || error "Failed to mount SMB share $smb_path"
-    fi
-  done
-fi
 
 # Setup postfix and mutt
 SMTPSERVER=$(jq -r '.settings.SMTPSERVER' "${CONFIGFILE}" | sed 's/^null$//g')
