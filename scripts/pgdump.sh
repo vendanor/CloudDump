@@ -448,5 +448,5 @@ done
 
 
 if ! [ "${result}" = "" ]; then
-  exit ${result}
+  exit "${result}"
 fi
