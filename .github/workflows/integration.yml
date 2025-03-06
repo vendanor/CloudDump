@@ -29,10 +29,6 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-       distro: [ fedora, opensuse, debian, ubuntu ]
-
     steps:
       - uses: actions/checkout@v4
 
@@ -41,6 +37,5 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          cp dockerfile-${{matrix.distro}}/Dockerfile .
+          cp Dockerfile .
           docker build ${{github.workspace}}
-
