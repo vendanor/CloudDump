@@ -1,4 +1,4 @@
-# Vendanor CloudDump [![Publish Status](https://github.com/vendanor/CloudDump/workflows/publish/badge.svg)](https://github.com/vendanor/CloudDump/actions)
+# Vendanor CloudDump [![Publish Status](https://github.com/vendanor/CloudDump/workflows/Publish/badge.svg)](https://github.com/vendanor/CloudDump/actions)
 
 CloudDump is a containerized tool that by cron tab by schedule data dumps from Azure blob storages and PostgreSQL databases. Email reports are generated for each job and SMB shares can be mounted and used as destinations.
 
