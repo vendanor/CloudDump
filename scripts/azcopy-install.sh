@@ -2,7 +2,7 @@
 
 set -e  # Exit immediately if a command fails
 
-azcopy_url="https://azcopyvnext-awgzd8g7aagqhzhe.b02.azurefd.net/releases/release-10.28.0-20250127/azcopy_linux_amd64_10.28.0.tar.gz"
+azcopy_url="https://github.com/Azure/azure-storage-azcopy/releases/download/v10.29.1/azcopy_linux_amd64_10.29.1.tar.gz"
 azcopy_filename="azcopy.tar.gz"
 
 # Download AzCopy
